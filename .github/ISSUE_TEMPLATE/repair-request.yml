@@ -1,0 +1,59 @@
+name: Repair request
+description: Request a scoped, testable software repair from PatchRelay.
+title: "Repair request: "
+labels:
+  - repair-request
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the request. This public form is for initial scoping only.
+
+        Do not include credentials, API keys, private customer data, wallet details, or anything confidential. Payment terms and a private delivery channel are agreed before work begins.
+  - type: input
+    id: repository
+    attributes:
+      label: Public repository or reproducible example
+      description: Link a public repository, sandbox, or minimal reproduction.
+      placeholder: https://github.com/owner/repository
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior
+      description: State what should happen, what happens instead, and how to reproduce it.
+      placeholder: |
+        Expected: ...
+        Actual: ...
+        Steps to reproduce: ...
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: List the observable conditions that make the repair complete.
+      placeholder: |
+        - A regression test fails before the patch and passes afterward.
+        - Existing test suite still passes.
+    validations:
+      required: true
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Desired scope
+      options:
+        - Small reproducible bug fix
+        - Test failure diagnosis and fix
+        - Documentation or developer-tool repair
+        - Need a scoped estimate first
+    validations:
+      required: true
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints
+      description: Include runtime, test command, deadline, licensing, and any non-sensitive constraints.
+    validations:
+      required: false
