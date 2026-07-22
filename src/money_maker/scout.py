@@ -194,6 +194,27 @@ def eligible(opportunities: list[Opportunity]) -> list[Opportunity]:
     return [opportunity for opportunity in opportunities if opportunity.risk is None]
 
 
+def verify_listing(
+    *,
+    title: str,
+    body: str,
+    issue_url: str,
+    repository: str,
+) -> dict[str, str | bool | None]:
+    """Return a compact payout and safety assessment for a public work listing."""
+    if not title.strip() or not issue_url.startswith("https://") or not repository.strip():
+        raise ValueError("title, issue_url, and repository are required")
+    text = f"{title}\n{body}"
+    reward = extract_reward(text)
+    risk = risk_reason(text) or payout_risk(issue_url, repository, body)
+    return {
+        "eligible": risk is None and reward is not None,
+        "reward_usd": f"{reward:.2f}" if reward is not None else None,
+        "risk": risk,
+        "decision": "eligible for manual payout verification" if risk is None and reward is not None else "reject or investigate before claiming",
+    }
+
+
 def scan_github(query: str = "(bounty OR reward) state:open", timeout: int = 15) -> list[Opportunity]:
     if not query.strip() or len(query) > 300:
         raise ValueError("query must be between 1 and 300 characters")

@@ -34,6 +34,16 @@ steps:
 
 The action writes a JSON report into the workflow workspace. It is intentionally read-only and does not claim, message, or submit work.
 
+## MCP verification service
+
+The repository also includes a dependency-free MCP server for agents that need to assess one public listing at a time before spending budget or starting work. It exposes `verify_public_bounty` over standard input/output and returns explicit reward evidence, safety flags, and payout-source warnings.
+
+```bash
+PYTHONPATH=src python3 -m money_maker.mcp
+```
+
+It is a self-hostable building block for a paid verification endpoint; the local server itself never signs payments, accesses wallets, or contacts listing authors.
+
 ## Revenue boundary
 
 This project finds and ranks opportunities; it does not claim that a listing is revenue. An explicit reward amount is not payment proof, and upstream payout terms must be verified before claiming work.

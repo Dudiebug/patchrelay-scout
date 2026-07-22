@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from money_maker.scout import eligible, extract_reward, normalize_issue, payout_risk, rank, risk_reason
+from money_maker.scout import eligible, extract_reward, normalize_issue, payout_risk, rank, risk_reason, verify_listing
 
 
 class ScoutTests(unittest.TestCase):
@@ -91,6 +91,16 @@ class ScoutTests(unittest.TestCase):
         assert safe is not None and risky is not None
         self.assertEqual(rank([risky, safe])[0].source_id, safe.source_id)
         self.assertEqual(eligible([safe, risky]), [safe])
+
+    def test_verifies_a_public_listing(self) -> None:
+        result = verify_listing(
+            title="Fix the public API docs for a $200 bounty",
+            body="",
+            issue_url="https://github.com/example/project/issues/1",
+            repository="example/project",
+        )
+        self.assertTrue(result["eligible"])
+        self.assertEqual(result["reward_usd"], "200.00")
 
 
 if __name__ == "__main__":
