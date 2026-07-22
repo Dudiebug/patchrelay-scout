@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from money_maker.scout import extract_reward, normalize_issue, payout_risk, rank, risk_reason
+from money_maker.scout import eligible, extract_reward, normalize_issue, payout_risk, rank, risk_reason
 
 
 class ScoutTests(unittest.TestCase):
@@ -90,6 +90,7 @@ class ScoutTests(unittest.TestCase):
         )
         assert safe is not None and risky is not None
         self.assertEqual(rank([risky, safe])[0].source_id, safe.source_id)
+        self.assertEqual(eligible([safe, risky]), [safe])
 
 
 if __name__ == "__main__":

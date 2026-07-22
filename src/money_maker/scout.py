@@ -189,6 +189,11 @@ def rank(opportunities: list[Opportunity]) -> list[Opportunity]:
     )
 
 
+def eligible(opportunities: list[Opportunity]) -> list[Opportunity]:
+    """Return only opportunities that have no detected safety or payout risk."""
+    return [opportunity for opportunity in opportunities if opportunity.risk is None]
+
+
 def scan_github(query: str = "(bounty OR reward) state:open", timeout: int = 15) -> list[Opportunity]:
     if not query.strip() or len(query) > 300:
         raise ValueError("query must be between 1 and 300 characters")
