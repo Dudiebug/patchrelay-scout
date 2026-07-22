@@ -1,0 +1,41 @@
+openapi: 3.1.0
+info:
+  title: PatchRelay Verify API
+  version: 1.0.0
+  description: Read-only assessment of public software bounty listings.
+paths:
+  /health:
+    get:
+      responses:
+        '200':
+          description: Service is healthy
+  /verify:
+    post:
+      summary: Verify a public bounty listing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, issue_url, repository]
+              properties:
+                title: {type: string}
+                body: {type: string}
+                issue_url: {type: string, format: uri}
+                repository: {type: string}
+      responses:
+        '200':
+          description: Verification result
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [eligible, reward_usd, risk, decision]
+                properties:
+                  eligible: {type: boolean}
+                  reward_usd: {type: [string, 'null']}
+                  risk: {type: [string, 'null']}
+                  decision: {type: string}
+        '400':
+          description: Invalid request

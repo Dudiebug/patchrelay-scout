@@ -48,6 +48,8 @@ It is a self-hostable building block for a paid verification endpoint; the local
 
 For a hosted deployment, the same verifier exposes `GET /health` and `POST /verify` with the MCP tool's JSON fields. The Docker image uses no runtime dependencies beyond Python.
 
+The machine-readable contract is in [`openapi.yaml`](openapi.yaml), ready for API gateways and agent clients.
+
 ```bash
 docker build -t patchrelay-verify .
 docker run --rm -p 8080:8080 patchrelay-verify
