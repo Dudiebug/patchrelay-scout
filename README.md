@@ -44,6 +44,18 @@ PYTHONPATH=src python3 -m money_maker.mcp
 
 It is a self-hostable building block for a paid verification endpoint; the local server itself never signs payments, accesses wallets, or contacts listing authors.
 
+## HTTP service
+
+For a hosted deployment, the same verifier exposes `GET /health` and `POST /verify` with the MCP tool's JSON fields. The Docker image uses no runtime dependencies beyond Python.
+
+```bash
+docker build -t patchrelay-verify .
+docker run --rm -p 8080:8080 patchrelay-verify
+curl http://127.0.0.1:8080/health
+```
+
+An x402-compatible payment gateway can sit in front of `POST /verify`; the service itself is deliberately payment-rail neutral.
+
 ## Revenue boundary
 
 This project finds and ranks opportunities; it does not claim that a listing is revenue. An explicit reward amount is not payment proof, and upstream payout terms must be verified before claiming work.
