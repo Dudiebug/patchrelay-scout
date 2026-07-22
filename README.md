@@ -26,7 +26,7 @@ The scan uses only unauthenticated `GET` requests to GitHub's public API. It doe
 
 ```yaml
 steps:
-  - uses: Dudiebug/patchrelay-scout@master
+  - uses: Dudiebug/patchrelay-scout@v1
     with:
       query: "(bounty OR reward) state:open"
       output: patchrelay-opportunities.json
