@@ -1,0 +1,22 @@
+name: PatchRelay Scout
+description: Find public GitHub reward issues while rejecting unsafe or unverified payout claims.
+author: PatchRelay
+inputs:
+  query:
+    description: GitHub issue-search query.
+    required: false
+    default: (bounty OR reward) state:open
+  output:
+    description: Path for the JSON report, relative to the workspace.
+    required: false
+    default: patchrelay-opportunities.json
+runs:
+  using: composite
+  steps:
+    - name: Scan public reward issues
+      shell: bash
+      run: >-
+        PYTHONPATH="${{ github.action_path }}/src"
+        python3 -m money_maker scan
+        --query "${{ inputs.query }}"
+        --output "${{ github.workspace }}/${{ inputs.output }}"
